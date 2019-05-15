@@ -1,7 +1,7 @@
 % LU matrix factorizaton, PA=LU, where L is a unit lower triangular matrix,
 % U is an upper triangular matrix, and P is a permutation matrix.
 % 10170437 Mark Taylor
-function [L,U,P]=LU(A) % Require A is a nonsigular matrix
+function [L,U,P]=LU(A)% Require A is a nonsigular matrix
 [m,n] = size(A);
 if m ~= n % make sure A is a square matrix to continue following steps
     error('Input error! Input must be a square matrix!')
