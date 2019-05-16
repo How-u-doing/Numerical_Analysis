@@ -1,7 +1,7 @@
 % Cholesky factorization, the decomposition of a symmetric, positive definite  
 % matrix into the product of a lower triangular matrix and its conjugate transpose.
 % 10170437 Mark Taylor
-function L= Cholesky(A)
+function [L, x]= Cholesky(A,b)
     
 [m,n]=size(A);
 if m ~= n % make sure A is a square matrix to continue following steps
@@ -20,9 +20,20 @@ for j=1:n
         
         L(i,j)=(A(i,j)-L(i,1:j-1)*L(j,1:j-1).')/L(j,j);
         
-    end
+    end   
     
+end
+
+if nargin==2 
     
+% A=L*L.', L*y=b, y=L.'*x, => A*x=b
+y=solveTril(L,b);
+x=solveTriu(L.',y);
+
+if nargout==1
+  L=x;   
+end
+
 end
 
 end
