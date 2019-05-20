@@ -1,0 +1,25 @@
+%  test matrices
+
+A=[ 	10	-1	2	0
+	-1	11	-1	3
+	2	-1	10	-1
+	0	3	-1	8]  %strictly diagonally dominant  matrix
+
+
+A=[ 	8	-1	1
+	2	10	-1
+	1	1	-5]
+
+
+% In this case, row reordering is very necessary
+A=[	9	 6	18
+	3	10	5
+	16	3	8e-8] %row 3<->row 1
+
+
+
+A=[	9	 6	1	1
+	0	1e-7	5	2  	
+	2e-6	3	8e-8	-1
+	-9	10	0	20]    %row 2<->row 3
+

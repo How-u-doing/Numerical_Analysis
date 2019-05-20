@@ -6,8 +6,8 @@
 % upper-triangular part of A. (A=D-L-U)
 % 10170437 Mark Taylor
 
-function [x, k]=GaussSeidel_C(A, b, tol, N, x_0)
-% Component-wise form of Gauss-Seidel's Method
+function [x, k]=GaussSeidel_M(A, b, tol, N, x_0)
+% Matrix-wise form of Gauss-Seidel's Method
 
 % INPUT:
 %   A: coefficient matrix
@@ -56,13 +56,15 @@ if max(abs(eig(eye(n)-inv_D*A)))>=1
 end
 
 k=1;
+L=-tril(A,-1);
+U=-triu(A,1);
 XP=x_0; % previous iteration of x
-x=zeros(n,1);
+x=x_0;
 while k<=N
     for i=1:n
-        x(i)=-1/A(i,i)*(A(i,1:i-1)*x(1:i-1)+A(i,i+1:n)*XP(i+1:n)-b(i));
-%                                  ^
-%                                  | 
+        x=inv_D*(L*x+U*XP+b);
+%                  ^
+%                  | 
 % Gauss-Seidel's Method uses these most recently calculated values 
     end
     

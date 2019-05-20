@@ -1,13 +1,13 @@
-% Gauss-Seidel Iteration to solve linear systems of algebra equations Ax=b.
-% x_(k)=inv(D)(Lx_(k)+Ux_(k-1)+b), 
-% or x_(k)=inv(D-L)Ux_(k-1)+inv(D-L)b, k=1,2,3, ...
+% Jacobi Iteration to solve linear systems of algebra equations Ax=b.
+% x_(k)=inv(D)(L+U)x_(k-1)+inv(D)b, 
+% or x_(k)=(I-inv(D)A)x_(k-1)+inv(D)b, k=1,2,3, ...
 % where D is a diagonal matrix whose diagonal entries are those of A,
 % -L is the strictly lower-triangular part of A, and -U is the strictly 
 % upper-triangular part of A. (A=D-L-U)
 % 10170437 Mark Taylor
 
-function [x, k]=GaussSeidel_C(A, b, tol, N, x_0)
-% Component-wise form of Gauss-Seidel's Method
+function [x, k]=Jacobi_C(A, b, tol, N, x_0)
+% Component-wise form of Jacobi's Method
 
 % INPUT:
 %   A: coefficient matrix
@@ -60,10 +60,8 @@ XP=x_0; % previous iteration of x
 x=zeros(n,1);
 while k<=N
     for i=1:n
-        x(i)=-1/A(i,i)*(A(i,1:i-1)*x(1:i-1)+A(i,i+1:n)*XP(i+1:n)-b(i));
-%                                  ^
-%                                  | 
-% Gauss-Seidel's Method uses these most recently calculated values 
+        x(i)=-1/A(i,i)*(A(i,1:i-1)*XP(1:i-1)+A(i,i+1:n)*XP(i+1:n)-b(i));
+        
     end
     
     if norm(x-XP,inf)/norm(x-x_0,inf)<tol
