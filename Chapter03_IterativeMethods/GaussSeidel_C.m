@@ -57,7 +57,7 @@ end
 
 k=1;
 XP=x_0; % previous iteration of x
-x=zeros(n,1);
+x=XP;
 while k<=N
     for i=1:n
         x(i)=-1/A(i,i)*(A(i,1:i-1)*x(1:i-1)+A(i,i+1:n)*XP(i+1:n)-b(i));
