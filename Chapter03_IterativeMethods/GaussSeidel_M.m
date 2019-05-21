@@ -56,18 +56,15 @@ if max(abs(eig(eye(n)-inv_D*A)))>=1
 end
 
 k=1;
-L=-tril(A,-1);
 U=-triu(A,1);
+L=tril(A);
+inv_L=Inv_U(L.').';
 XP=x_0; % previous iteration of x
-x=x_0;
+x=XP;
 while k<=N
-    for i=1:n
-        x=inv_D*(L*x+U*XP+b);
-%                  ^
-%                  | 
-% Gauss-Seidel's Method uses these most recently calculated values 
-    end
     
+    x=inv_L*U*x+inv_L*b;
+        
     if norm(x-XP,inf)/norm(x-x_0,inf)<tol
         return;
     end
