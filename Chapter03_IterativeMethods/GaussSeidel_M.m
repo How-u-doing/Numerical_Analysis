@@ -46,24 +46,26 @@ if nargin<5
     x_0=zeros(n,1); % set default initial approximation
 end
 
-inv_D=diag(1./diag(A));
-
-% Though it is never a cost-effecient way to tell whether iteration matrix 
-% converges via using eig function which consumes relatively large amount
-% of memory & time. Temporarily I can't figure out a better approach.
-if max(abs(eig(eye(n)-inv_D*A)))>=1 
-    error('Iteration matrix does not converge!')
-end
-
-k=1;
 U=-triu(A,1);
 L=tril(A);
 inv_L=Inv_U(L.').';
+H=inv_L*U; % iterative matrix 
+
+% #######  This part is not necessary in practical computation.
+% Though it is never a cost-effecient way to tell whether iterative matrix 
+% converges via using eig function which consumes relatively large amount
+% of memory & time. Temporarily I can't figure out a better approach.
+if max(abs(eig(H)))>=1 
+    error('Iterative matrix does not converge!')
+end
+% ####### 
+
+k=1;
 XP=x_0; % previous iteration of x
 x=XP;
 while k<=N
     
-    x=inv_L*U*x+inv_L*b;
+    x=H*x+inv_L*b;
         
     if norm(x-XP,inf)/norm(x-x_0,inf)<tol
         return;
