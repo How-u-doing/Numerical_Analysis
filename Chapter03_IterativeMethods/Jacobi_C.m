@@ -6,18 +6,18 @@
 % upper-triangular part of A. (A=D-L-U)
 % 10170437 Mark Taylor
 
-function [x, k]=Jacobi_C(A, b, tol, N, x_0)
-% Component-wise form of Jacobi's Method
+function [x, k]=Jacobi_C(A, b, tol, N, X0)
+% Component-wise manner of Jacobi's Method
 
 % INPUT:
 %   A: coefficient matrix
 %   b: right hand side vector 
 %   tol: tolerance, 
 %   N: maximum number of iterations,
-%   x_0: initial approximation(by default,x_0=zeros(n,1)).
+%   X0: initial approximation(by default,X0=zeros(n,1)).
 % OUTPUT:
 %   x: approximation solution vector,   
-%   k: number of iterations.
+%   k: the number of iterations.
 
 [m,n]=size(A);
 if m~=n
@@ -43,37 +43,44 @@ else
 end
 
 if nargin<5
-    x_0=zeros(n,1); % set default initial approximation
+    X0=zeros(n,1); % set default initial approximation
 end
 
+% #######  This part is not necessary in practical computation.
 inv_D=diag(1./diag(A));
-
 % Though it is never a cost-effecient way to tell whether iteration matrix 
 % converges via using eig function which consumes relatively large amount
 % of memory & time. Temporarily I can't figure out a better approach.
 if max(abs(eig(eye(n)-inv_D*A)))>=1 
-    error('Iteration matrix does not converge!')
+    error('Iterative matrix does not converge!')
 end
+% #######
 
 k=1;
-XP=x_0; % previous iteration of x
-x=XP;
+x=X0;
 while k<=N
     for i=1:n
-        x(i)=-1/A(i,i)*(A(i,1:i-1)*XP(1:i-1)+A(i,i+1:n)*XP(i+1:n)-b(i));
+        x(i)=-1/A(i,i)*(A(i,1:i-1)*X0(1:i-1)+A(i,i+1:n)*X0(i+1:n)-b(i));
+%                                  ^
+%                                  | 
+% Jacobi's Method uses these previous values 
         
     end
     
-    if norm(x-XP,inf)/norm(x-x_0,inf)<tol
+    if norm(x-X0,inf)<tol
+%   or norm(x-X0,inf)/norm(x,inf)<tol
         return;
     end
     
-    XP=x;
+    X0=x;
     k=k+1;
 
 end
 
-error('Cannot compute approximation solution vector x within %d iterations!',N)
+% The number of iterations was exceeded.
+k=k-1;% k=N
+fprintf('\nCannot compute the approximate solution vector x within %d iterations in the tolerance of %d!\n',N,tol);
+fprintf('The last iterative approximate solution vector x is as followed:');
 
 end
 

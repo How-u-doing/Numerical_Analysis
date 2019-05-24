@@ -1,17 +1,17 @@
-% Jacobi Iteration to solve linear systems of algebra equations Ax=b.
-% x_(k)=inv(D)(L+U)x_(k-1)+inv(D)b, 
-% or x_(k)=(I-inv(D)A)x_(k-1)+inv(D)b, k=1,2,3, ...
+% Successive Over-Relaxation method to solve linear systems of algebra equations Ax=b.
+% x_(k)=x_(k-1)+w*inv(D)*(L*x_(k)+(-D+U)*x_(k-1)+b), or
+% x_(k)=inv(D-w*L)*((1-w)*D+w*U)*x_(k-1)+w*inv(D-w*L)*b, k=1,2,3, ...
 % where D is a diagonal matrix whose diagonal entries are those of A,
 % -L is the strictly lower-triangular part of A, and -U is the strictly 
 % upper-triangular part of A. (A=D-L-U)
 % 10170437 Mark Taylor
 
-function [x, k]=Jacobi_M(A, b, tol, N, X0)
-% Matrix-wise manner of Jacobi's Method
+function [x, k]=SOR(A, b, w, tol, N, X0)
 
 % INPUT:
-%   A: coefficient matrix
-%   b: right hand side vector 
+%   A: coefficient matrix,
+%   b: right hand side vector, 
+%   w: parameter omega,
 %   tol: tolerance, 
 %   N: maximum number of iterations,
 %   X0: initial approximation(by default,X0=zeros(n,1)).
@@ -42,26 +42,20 @@ else
     error('Reordering failure to make all diagonal entries greater than 1.0e-6!')
 end
 
-if nargin<5
+if nargin<6
     X0=zeros(n,1); % set default initial approximation
 end
 
-inv_D=diag(1./diag(A));
-% #######  This part is not necessary in practical computation.
-% Though it is never a cost-effecient way to tell whether iteration matrix 
-% converges via using eig function which consumes relatively large amount
-% of memory & time. Temporarily I can't figure out a better approach.
-if max(abs(eig(eye(n)-inv_D*A)))>=1 
-    error('Iterative matrix does not converge!')
-end
-% #######
-
 k=1;
-
+x=X0;
 while k<=N
-    x=(eye(n)-inv_D*A)*X0+inv_D*b;
+    for i=1:n
+        
+        x(i)=(1-w)*X0(i)-w/A(i,i)*(A(i,1:i-1)*x(1:i-1)+A(i,i+1:n)*X0(i+1:n)-b(i));
+        
+    end
+    
     if norm(x-X0,inf)<tol
-%   or norm(x-X0,inf)/norm(x,inf)<tol 
         return;
     end
     
