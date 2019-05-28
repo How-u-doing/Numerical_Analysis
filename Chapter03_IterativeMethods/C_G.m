@@ -1,4 +1,4 @@
-% Conjugate Dradient method
+% Conjugate Gradient method
 % 10170437 Mark Taylor
 
 function [x, k]=C_G(A, b, tol, N, x_0)
