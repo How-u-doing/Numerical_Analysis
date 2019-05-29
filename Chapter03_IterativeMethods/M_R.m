@@ -26,15 +26,16 @@ end
 
 x=x_0;
 r=b-A*x_0;
-k=1;
+k=0;
 while k<=N
-    beta=(A*r).'*r/((A*r).'*(A*r));
-    x=x+beta*r;
-    r=b-A*x;% <-> r=r-beta*A*r; 
     
     if norm(r,inf)<tol
         return;
     end
+    
+    beta=(A*r).'*r/((A*r).'*(A*r));
+    x=x+beta*r;
+    r=b-A*x;% <-> r=r-beta*A*r;  
     
     k=k+1;
 

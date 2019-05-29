@@ -21,24 +21,26 @@ end
 
 n=size(A,2);
 if nargin<5
-    x_0=zeros(n,1); % set default initial approximation
+    x_0=zeros(n,1);           % set default initial approximation
 end
 
 x=x_0;
 r=b-A*x_0;
 p=r;
-k=1;
+k=0;
 while k<=N
-    alpha=r.'*p/((A*p).'*p);
-    x=x+alpha*p;
-    r=r-alpha*A*p;% <-> r=b-A*(x+alpha*p); 
-    
-    if norm(r,inf)<tol
+                              % p.'*A*p==0, -> p=0,(r,p)=(r,r), -> r=0
+    if norm(r,inf)<tol || p.'*A*p==0
         return;
     end
     
-    beta=-(r.'*A*p)/(p.'*A*p);
+    alpha=r.'*p/(p.'*A*p);    % <-> alpha=r.'*r/((A*p).'*p);
+    x=x+alpha*p;
+    r=b-A*x;                  % <-> r=r-alpha*A*p; 
+    
+    beta=-(r.'*A*p)/(p.'*A*p); 
     p=r+beta*p;
+    
     k=k+1;
 
 end
