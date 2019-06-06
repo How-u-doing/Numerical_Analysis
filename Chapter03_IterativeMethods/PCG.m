@@ -10,7 +10,8 @@ function [x, r, k]=PCG(A, b, CI, tol, N, x_0)
 %   N: maximum number of iterations,
 %   x_0: initial approximation(by default,x_0=zeros(n,1)).
 % OUTPUT:
-%   x: approximation solution vector,   
+%   x: approximation solution vector,
+%   r: residual vector,   
 %   k: the number of iterations.
 
 % The complete procedure to check if A is symmetric & positive definite is: 
@@ -21,8 +22,18 @@ if  isequal(A,A.')==false
 end
 
 n=size(A,2);
+% Set default initializations
 if nargin<6
-    x_0=zeros(n,1);           % set default initial approximation
+    x_0=zeros(n,1);
+    if nargin<5
+        N=1000;
+        if nargin<4
+            tol=1e-6;
+            if nargin<3
+                error('Too few input arguments!')
+            end
+        end
+    end 
 end
 
 % Initialization
@@ -58,7 +69,7 @@ end
 % The number of iterations was exceeded.
 k=k-1;% k=N
 fprintf('\nCannot compute the approximate solution vector x within %d iterations in the tolerance of %d!\n',N,tol);
-fprintf('The last iterative approximate solution vector x is as followed:');
+fprintf('The last iterative approximate solution vector x is as followed:\n');
 
 end
 

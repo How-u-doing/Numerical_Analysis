@@ -42,18 +42,30 @@ else
     error('Reordering failure to make all diagonal entries greater than 1.0e-6!')
 end
 
+% Set default initializations
 if nargin<6
-    X0=zeros(n,1); % set default initial approximation
+    X0=zeros(n,1);
+    if nargin<5
+        N=1000;
+        if nargin<4
+            tol=1e-6;
+            if nargin<3
+                error('Too few input arguments!')
+            end
+        end
+    end 
 end
 
 k=1;
 x=X0;
 while k<=N
-    for i=1:n
+    x(1)=(1-w)*X0(1)-w/A(1,1)*(A(1,2:n)*X0(2:n)-b(1));
+    for i=2:n-1
         
         x(i)=(1-w)*X0(i)-w/A(i,i)*(A(i,1:i-1)*x(1:i-1)+A(i,i+1:n)*X0(i+1:n)-b(i));
         
     end
+    x(n)=(1-w)*X0(n)-w/A(n,n)*(A(n,1:n-1)*x(1:n-1)-b(n));
     
     if norm(x-X0,inf)<tol
         return;
@@ -67,7 +79,7 @@ end
 % The number of iterations was exceeded.
 k=k-1;% k=N
 fprintf('\nCannot compute the approximate solution vector x within %d iterations in the tolerance of %d!\n',N,tol);
-fprintf('The last iterative approximate solution vector x is as followed:');
+fprintf('The last iterative approximate solution vector x is as followed:\n');
 
 end
 
