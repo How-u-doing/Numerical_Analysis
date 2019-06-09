@@ -1,12 +1,12 @@
-% Horner Method for matrix
+% Matrix form of Horner's Method 
 % 10170437 Mark Taylor
-function Y = Qin_M(p,X) 
+function Y = Horner_M(p,X) 
 
 % Y = P(1)*X^N + P(2)*X^(N-1) + ... + P(N)*X + P(N+1)
 
 [m,n] = size(X);
-if m ~= n % make sure input is a square matrix to continue following steps
-    error('Input must be a square matrix!')
+if m ~= n 
+    error('Input must be square!')
 end
 
 np = length(p);

@@ -1,6 +1,6 @@
-% Horner Method
+% Horner's Method
 % 10170437 Mark Taylor
-function y = Qin(p,x)  
+function y = Horner(p,x)  
 
 % y = P(1)*X^N + P(2)*X^(N-1) + ... + P(N)*X + P(N+1)
 

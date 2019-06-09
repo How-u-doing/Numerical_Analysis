@@ -13,6 +13,6 @@ T=eye(n);%     |     c     s        |   <-- row i
 %              |              1     |
 T(i,i)=c;%     |                 1  |
 T(i,j)=s;%     \                    /
-T(j,i)=-s;%         ¡ü     ¡ü
+T(j,i)=-s;%          ¡ü     ¡ü
 T(j,j)=c;%    column i     j
 end
