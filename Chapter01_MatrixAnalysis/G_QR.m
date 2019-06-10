@@ -1,18 +1,18 @@
-% Givens Rotation &  QR factorization
+% Givens QR Method
 % 10170437 Mark Taylor
 function [Q,R]=G_QR(A)
 [m,n] = size(A);
-if m ~= n 
-    error('Input must be a square matrix!')
+if m < n 
+    error('The number of rows must be no less than the number of columns!')
 end
 R=A;
-Q=eye(n);
-for j=1:n-1
-    for i=j+1:n
+Q=eye(m);
+for j=1:n
+    for i=j+1:m
         if R(i,j)~=0
-            T=Givens(R(j,j),R(i,j),j,i,n);
-            R=T*R;     % R=T(n,n-1)T(n-2,n)...T(1,n)...T(1,2)A
-            Q=T*Q;     % Q=T(n,n-1)T(n-2,n)...T(1,n)...T(1,2)
+            T=Givens(R(j,j),R(i,j),j,i,m);
+            R=T*R;     % R=T(n-1,m)T(n-2,m)...T(1,m)...T(1,2)A
+            Q=T*Q;     % Q=T(1,2)...T(1,m)...T(n-2,m)T(n-1,m)
         else 
             continue;
         end
