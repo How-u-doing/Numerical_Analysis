@@ -49,7 +49,7 @@ while k<=N
         return;
     end
        
-% /***** Compute shift
+% /***** Compute Wilkinson shift
     b=-(H(n-1,n-1)+H(n,n));
     c=H(n-1,n-1)*H(n,n)-H(n-1,n)*H(n,n-1);
     d=sqrt(b^2-4*c);
@@ -81,10 +81,14 @@ while k<=N
     % Compute H_(k+1) via Givens rotation
     for j=1:n-1
         P = GV(H(j,j),H(j+1,j),j,j+1,n);
-        % H=RQ=P(n-1)...p(2)P(1)*H*P(1)'P(2)'...P(n-1)'       
+        % Note that P may be a complex matrix(when A is complex).
+        % Here *P.' cannot be changed as *p', beacuse we left multiplied H
+        % and we should right multiply its transpose rather than its conju-
+        % gate transpose.        
+        % H=RQ=P(n-1)...P(2)P(1)*H*P(1).'P(2).'...P(n-1).'
         H(1:n,1:n)=P*H(1:n,1:n)*P.';        
         %/*
-        % Indeed, row 83 and 85 can be optimized to cut down the amount of 
+        % Indeed, line 83 and 85 can be optimized to cut down the amount of 
         % calculation due to the fact that P left(right) multiplies H only 
         % changes two rows(columns) of H. See Eig.m for implementation.
         %*/
