@@ -32,19 +32,28 @@ if nargin<6
     end
 end
 
-% Check the validity of input arguments
+
 if strcmp(b,'default')==true
     b=norm(C,inf);
 end
 if strcmp(a,'default')==true
     a=-b;
 end
+if strcmp(m,'max')==true
+    m=1;
+end
+if strcmp(m,'min')==true
+    m=n;
+end
+
+% Check the validity of input arguments
 if a>=b
     error('a must be less than b, i.e. a<b')    
 end
 if m<1 || m>n
     error('m must satisfy 1<=m<=%d',n)    
 end
+
 
 
 [eigval,k]=bisection(C,m,a,b,tol,N);
