@@ -1,7 +1,7 @@
-% Compute dominant eigenvalue via power method
+% Determine the eigenvalue of A that is closest to a speci?ed number q. 
 % 10170437 Mark Taylor
 
-function [u,x,k]=Power(A,x0,tol,N)
+function [u,x,k]=Invpower(A,x0,tol,N)
 % u: (nonzero) dominant eigenval of A,
 % x: eigenvector corresponding to u, which satisfies norm(x,inf)=1.
 
@@ -25,38 +25,48 @@ if nargin<4
 end
 
 x=x0;
-% Render norm(x,inf)=1.    
-x=x/x(maxIndex(x,1,n));    
 k=1;
-while k<=N
-    y=A*x;
+% Rayleigh quotient
+q=x.'*A*x/(x.'*x);
+
+% Render norm(x,inf)=1.
+x=x/x(maxIndex(x,1,n));
+
+u0=0;
+u1=0;
+while k<=N        
+    % Solve the linear system (A?qI)y=x.
+    y=GauEli(A-q*eye(n),x);
+    
+    if ischar(y)==true
+        fprintf('q is an eigenvalue');
+        u=q;
+        return;
+    end
     
     % Set u maximum component of y, the dominant eigenvalue converges at u.
     u=y(maxIndex(y,1,n));
-    if abs(u)<eps
-        fprintf('This matrix has the eigenvalue 0, and its corresponding eigenvector is as followed:\n');
-        x        
-        prompt='Please select a NEW vector x and restart(by default we provided ones(n,1), please enter a DIFFERENT one)\nx=';
-        x=input(prompt);
-        while iscolumn(x)==false || length(x)~=n || isequal(x,x0)==true
-            fprintf('Invalid x! x must a %d-by-1 vector that differs from x0\n',n);
-            x=input(prompt);
-        end
-        x0=x;        
-    end      
+    
+    % Accelerate convergence via Aitken's delta^2 method 
+    u_refine=u0-(u1-u0)^2/(u-2*u1+u0);
     
     err=max(abs(x-y/u));
     x=y/u;
-    if abs(err)<tol        
+    if abs(err)<tol && k>=4        
+        u=u_refine;
+        u=1/u+q;
         return;
     end    
     
     k=k+1; 
+    u0=u1;
+    u1=u;
 end
 
 % The number of iterations was exceeded.
 k=k-1;% k=N
-fprintf('\nCannot compute the approximate dominant eigenvalue within %d iterations in the tolerance of %d!\n',N,tol);
+u=u_refine;
+fprintf('\nCannot compute the approximate eigenvalue within %d iterations in the tolerance of %d!\n',N,tol);
 fprintf('Calculated eigenvalue & eigenvector in the last iteration are as followed:\n');
     
 end

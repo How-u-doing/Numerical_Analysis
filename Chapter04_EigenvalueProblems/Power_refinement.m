@@ -27,16 +27,13 @@ end
 
 x=x0;
 k=1;
+% Render norm(x,inf)=1.    
+x=x/x(maxIndex(x,1,n));    
 u0=0;
 u1=0;
 while k<=N
-    % Render norm(x,inf)=1.
-    % It seems that every loop we do this is such a waste, but maybe not.
-    % Consider A is a 'giant', by which I mean entries of A are enormous, 
-    % then A^k is highly likely to overflow. Fatal!!
-    x=x/x(maxIndex(x,1,n));
-    
     y=A*x;
+    
     % Set u maximum component of y, the dominant eigenvalue converges at u.
     u=y(maxIndex(y,1,n));
     
