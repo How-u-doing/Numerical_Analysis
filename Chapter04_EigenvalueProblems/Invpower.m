@@ -1,4 +1,4 @@
-% Determine the eigenvalue of A that is closest to a speci?ed number q. 
+% Determine the eigenvalue of A that is closest to a specified number q. 
 % 10170437 Mark Taylor
 
 function [u,x,k]=Invpower(A,x0,tol,N)
