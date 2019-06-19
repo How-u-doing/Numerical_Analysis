@@ -34,18 +34,30 @@ if nargin<6
     end
 end
 
+if ischar(b)
+    if strcmp(b,'default')==true
+        b=norm(C,inf);
+    else
+        error('Invalid b!')
+    end
+end
 
-if strcmp(b,'default')==true
-    b=norm(C,inf);
+if ischar(a)
+    if strcmp(a,'default')==true
+        a=-norm(C,inf);
+    else
+        error('Invalid a!')
+    end
 end
-if strcmp(a,'default')==true
-    a=-b;
-end
-if strcmp(m,'max')==true
-    m=1;
-end
-if strcmp(m,'min')==true
-    m=n;
+
+if ischar(m)
+    if strcmp(m,'max')==true
+        m=1;
+    elseif strcmp(m,'min')==true
+        m=n;
+    else
+        error('Invalid m! m must be integer or ''max'' or ''min''.')
+    end
 end
 
 % Check the validity of input arguments

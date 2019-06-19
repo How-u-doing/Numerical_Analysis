@@ -54,7 +54,11 @@ while k<=N
     
     err=max(abs(x-y/u));
     x=y/u;
-    if abs(err)<tol && k>=4
+    
+    % The stopping criterion should be improved. Indeed, we will get a more
+    % accurate eigenvalue solution though the iterative times is the same as
+    % "Power.m". See "compare.mlx" to verify the fact.
+    if abs(err)<tol && k>4
         u=u_refine;
         return;
     end    
