@@ -1,43 +1,44 @@
-% Gaussian Elimination:  solve linear systems of algebraic 
-% equations of the form Ax=b, where A is a nonsigular matrix.
+% Gaussian Elimination: solve linear systems 
+% of algebraic equations of the form Ax=b.
 % 10170437 Mark Taylor
-function [U,x] = GauEli(A, b)
-    
-[m,n]=size(A);
-if m ~= n % make sure A is a square matrix to continue following steps
-    error('Input error! Input must be a square matrix!')
-end
-U=[A,b];% Augemented matrix of A
 
-for j=1:n-1    
-    % Search down from U(j:m,j) and find the entry in the left column with 
-    % the largest absolute value as pivot,indicated as B(k,j)(k>=j), then 
-    % swap row j with row k if k>j
-    k=maxIndex(U(:,j),j,m);
-    if U(k,j)~=0
+function [x,U] = GauEli(A, b)
+
+[m,n]=size(A);
+if m ~= n 
+    error('A must be a square matrix!')
+end
+
+U=[A,b];        % Augemented matrix of A
+
+for j=1:n
+    k=maxIndex(U(:,j),j,n);
+    if abs(U(k,j))>eps
         if k~=j
             temp=U(j,j:n+1);
             U(j,j:n+1)=U(k,j:n+1);
             U(k,j:n+1)=temp;               
         end 
     else 
-        error('Input is a singular matrix!')
+        x='The system has infinitely many solutions!';
+        U=NaN;
+        return;        
     end
     
-    for i=j+1:m
-        if(U(i,j)~=0)
+    % Perform Gauss elimination.
+    for i=j+1:n
+        if abs(U(i,j))>eps
             t=U(i,j)/U(j,j);
             U(i,j:n+1)=U(i,j:n+1)-t*U(j,j:n+1);
-        end            
+        end
     end
 end
 
-x=zeros(m,1);
-x(n)=U(m,n+1)/U(m,n);
+x=zeros(n,1);
+% Sovle upper diagonal linear system, i.e. U(1:n,1:n)x=U(:,n+1).
+x(n)=U(n,n+1)/U(n,n);
 for i=n-1:-1:1
     x(i)=(U(i,n+1)-U(i,i+1:n)*x(i+1:n))/U(i,i);
 end
 
 end
-
-

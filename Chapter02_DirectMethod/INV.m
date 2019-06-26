@@ -2,55 +2,46 @@
 % 10170437 Mark Taylor
 function Inv_A = INV(A)
 
-if nargin==0
-    error('Please input a square matrix as the input to compute its inverse matrix!')    
-end
-    
 [m,n]=size(A);
-if m ~= n % make sure A is a square matrix to continue following steps
-    error('Input error! Input must be a square matrix!')
+if m ~= n
+    error('A must be square!')
 end
 U=[A,eye(n)];
-Inv_A=zeros(n);
-for j=1:m    
-    % Search down from U(j:m,j) and find the entry in the left column with 
-    % the largest absolute value as pivot,indicated as B(k,j)(k>=j), then 
-    % swap row j with row k if k>j
-    k=maxIndex(U(:,j),j,m);
-    if U(k,j)~=0
+n1=2*n;
+for j=1:n
+    k=maxIndex(U(:,j),j,n);
+    if abs(U(k,j))>eps
         if k~=j
-            temp=U(j,:);
-            U(j,:)=U(k,:);
-            U(k,:)=temp;               
+            temp=U(j,j:n1);
+            U(j,j:n1)=U(k,j:n1);
+            U(k,j:n1)=temp;               
         end 
     else 
-        disp('Input is a singular matrix, which has no invese matrix!')
+        Inv_A='A is singular!';
         return
     end   
     
-%     Let first nonzero entry of each row be equal to one   
+    % Render first nonzero entry of each row to be one.
     U(j,:)=U(j,:)/U(j,j);
     
-%     eliminate the entries that above U(j,j)
-    if j>1 
+    % Eliminate the entries that above U(j,j).
+    if j>1
         for t=1:j-1
-            if U(t,j)~=0
-                U(t,:)=U(t,:)-U(t,j)*U(j,:);
+            if abs(U(t,j))>eps
+                U(t,j:n1)=U(t,j:n1)-U(t,j)*U(j,j:n1);
             end
         end
     end  
     
-    
-    for i=j+1:m 
-        if(U(i,j)~=0)
-            U(i,:)=U(i,:)-U(i,j)*U(j,:);
+    % Eliminate the entries that below U(j,j).
+    for i=j+1:n 
+        if abs(U(i,j))>eps
+            U(i,j:n1)=U(i,j:n1)-U(i,j)*U(j,j:n1);
         end                 
     end
     
 end
 
 
-Inv_A=U(:,n+1:2*n);
+Inv_A=U(:,n+1:n1);
 end
-
-

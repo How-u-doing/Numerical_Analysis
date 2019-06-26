@@ -1,18 +1,18 @@
-% Algorithm for solving tridiagonal linear systems of algebraic equations of 
-% the form Ax=b via using Doolittle's LU factorization without selecting pivot.
-% Here A is a tridiagonal matrix
+% Solving tridiagonal linear systems Ax=b via
+% Doolittle's LU factorization without pivoting.
 % 10170437 Mark Taylor
-function [L,U,x] = solveTridiag(A,b) 
+
+function [x,L,U] = solveTridiag(A,b) 
 
 % [L,U]=D_LU(A);    % Implementation of Doolittle's LU factorization can be
 % replaced by following steps due to tridiagonal feature that A possesses.
- 
-% *****
+
+% /*****
 [m,n] = size(A);
-if m ~= n % make sure A is a square matrix to continue following steps
-    error('Input error! Input must be a square matrix!')
+if m ~= n
+    error('A must be a square matrix!')
 elseif length(b)~=m
-    error('The number of rows of A is not equal to length of column vector b!')
+    error('The number of rows of A must be equal to length of right hand vector b!')
 end
 
 L=eye(n);
@@ -23,7 +23,7 @@ for  i=2:n
    U(i,i)=A(i,i)-L(i,i-1)*A(i-1,i);
    U(i-1,i)=A(i-1,i);
 end
-% *****
+% *****/
 
 % Solve Ly=b
 y=zeros(n,1);
@@ -38,11 +38,6 @@ x(n)=y(n)/U(n,n);
 for i=n-1:-1:1
     x(i)=(y(i)-A(i,i+1)*x(i+1))/U(i,i);
     
-end
-
-% Only output x when there is one output argument
-if nargout==1
-    L=x;
 end
 
 end

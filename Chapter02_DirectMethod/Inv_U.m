@@ -1,7 +1,7 @@
-% Inverse matrix of a nonsingular upper triangular matrix
+% Inverse matrix of a nonsingular upper triangular matrix.
 % If input is a lower triangular matrix L, its inverse matrix inv_L=Inv_U(L.').' 
-
 % 10170437 Mark Taylor
+
 function V=Inv_U(U) % V*U=I
     if all(diag(U))==false
         error('U is a singular matrix which has no inverse matrix')
