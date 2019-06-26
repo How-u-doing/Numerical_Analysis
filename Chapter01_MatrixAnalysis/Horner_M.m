@@ -1,5 +1,6 @@
 % Matrix form of Horner's Method 
 % 10170437 Mark Taylor
+
 function Y = Horner_M(p,X) 
 
 % Y = P(1)*X^N + P(2)*X^(N-1) + ... + P(N)*X + P(N+1)

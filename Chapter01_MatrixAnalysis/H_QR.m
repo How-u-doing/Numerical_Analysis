@@ -1,5 +1,6 @@
-% Householder transformation &  QR factorization
+% Householder QR Factorization
 % 10170437 Mark Taylor
+
 function [Q,R]=H_QR(A)
 [m,n] = size(A);
 if m ~= n 

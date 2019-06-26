@@ -13,7 +13,7 @@ Q=eye(m);
 for j=1:n
     for i=j+1:m
         if R(i,j)~=0
-            G=givens_cs(R(j,j),R(i,j));
+            G=givens(R(j,j),R(i,j));
             R([j,i],:)=G*R([j,i],:);
             Q([j,i],:)=G*Q([j,i],:);
             
