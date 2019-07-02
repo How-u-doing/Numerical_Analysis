@@ -1,9 +1,8 @@
-% Solve nonlinear systems of equations of the form f(x)=0 via fixed point mothod.
+% Solve nonlinear systems of equations of the form f(x)=0 via fixed point
+% mothod, converting the form f(x)=0 into x=phi(x).
 % 10170437 Mark Taylor
 
 function [x,k]=fixpoint(phi,x0,tol,maxit)
-% x=phi(x), 
-
 
 % Set default input arguments
 if nargin<4
