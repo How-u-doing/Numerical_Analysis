@@ -27,7 +27,7 @@ elseif abs(fun(b))<tol
 end
 
 r=(a+b)/2;
-while k<maxit
+while k<=maxit
     if abs(fun(r))<tol
         x=r;
         return;
