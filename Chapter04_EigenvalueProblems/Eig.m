@@ -20,6 +20,14 @@ if nargin<3
     
 end
 
+
+% Fast return if possible(when it is triu or tril form)
+if istril(A) || istriu(A)
+    eigval=diag(A);
+    return
+end
+
+
 % Construct upper-Hessenberg matrix
 H=Hessenberg(A); % H is a Hessenberg matrix who has identical eigenvalues of A
 
