@@ -1,16 +1,14 @@
-% ------------Lagrange Interpolation---------------
-% Find a polynomial function that goes through a set of points that are in the n-by-2 table
+% Evaluate the value at x of a Lagrange interpolation polynomial which
+% is determined by a set of points in arg table.
 % 10170437 Mark Taylor
-function fun = Lagrange(table)
+function key = LagrangeEvalAt(table,x)
 n=size(table,1);            % the number of known points
 
-syms x;
-L=sym('L',[n,1]);
-fun=0;
+L=ones(n,1);
+key=0;
 i=1;
 while i<=n
     denominator=1; 
-    L(i)=1;
     k=1;
     while k<=n
         if k==i
@@ -24,10 +22,9 @@ while i<=n
         k=k+1;
     end
         
-    fun=fun+L(i)/denominator*table(i,2);
+    key=key+L(i)/denominator*table(i,2);
     i=i+1;
 end
 
-%fun=matlabFunction(fun);
 end
 
