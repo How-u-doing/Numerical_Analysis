@@ -1,29 +1,23 @@
-% Evaluate the value at x of a Lagrange interpolation polynomial which
-% is determined by a set of points in arg table.
+% Evaluate the value at x of a Lagrange interpolating polynomial 
+% which is determined by a set of points in arg table.
 % 10170437 Mark Taylor
 function key = LagrangeEvalAt(table,x)
-n=size(table,1);            % the number of known points
+% table=[X,f(X)], where X and f(X) are given column vectors of n-th dimension
+% x is the point to be evaluated
 
-L=ones(n,1);
+n=size(table,1);            % the number of known points
 key=0;
-i=1;
-while i<=n
-    denominator=1; 
-    k=1;
-    while k<=n
+for i=1:n
+    Li=1;
+    for k=1:n
         if k==i
-            k=k+1;
             continue            
         end
         
-        L(i)=L(i)*(x-table(k,1));
-        denominator=denominator*(table(i,1)-table(k,1));
-        
-        k=k+1;
+        Li=Li*(x-table(k,1))/(table(i,1)-table(k,1));
     end
         
-    key=key+L(i)/denominator*table(i,2);
-    i=i+1;
+    key=key+Li*table(i,2);
 end
 
 end
