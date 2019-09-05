@@ -1,27 +1,27 @@
-% Evaluate the value at x of a Newton interpolating polynomial of order-th
-% order which is determined by the preceding (order+1) points in arg table.
+% Evaluate the value at x of a Newton interpolating polynomial of degree-th
+% degree which is determined by the preceding (degree+1) points in arg table.
 % 10170437 Mark Taylor
-function key = NewtonEvalAt(table,x,order)
+function key = NewtonEvalAt(table,x,degree)
 % table=[X,f(X)], where X and f(X) are given column vectors of m-th dimension
 % x is the point to be evaluated
-% order is the order of the Newton interpolating polynomial to be approximated as
+% degree is the degree of the Newton interpolating polynomial to be approximated as
 
 m=size(table,1);            % the number of known points
 if nargin<3
-    order=m-1;              % approximation via the Newton interpolating polynomial of (m-1)-th order by default
-elseif order<1
-    % when order<m-1, use preceding (order+1) points to approximate the polynomial
-    error('order must be no less than 1')
-elseif order>=m
-    error('order must be less than the number of given points')
+    degree=m-1;             % approximation via the Newton interpolating polynomial of (m-1)-th degree by default
+elseif degree<1
+    % when degree<m-1, use preceding (degree+1) points to approximate the polynomial
+    error('degree must be no less than 1')
+elseif degree>=m
+    error('degree must be less than the number of given points')
 end
 
-n=2+order;
-table(:,3:n)=NaN(m,order);
+n=2+degree;
+table(:,3:n)=NaN(m,degree);
 
 key=table(1,2);
 for j=3:n
-    for i=j-1:order+1
+    for i=j-1:degree+1
     	table(i,j)=(table(i,j-1)-table(i-1,j-1))/(table(i,1)-table(i-(j-2),1));
     end
         
