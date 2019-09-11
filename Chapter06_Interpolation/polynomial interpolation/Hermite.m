@@ -1,6 +1,6 @@
 % ------------Hermite Interpolation---------------
-% Find a polynomial H(x) of£¨2m-1)-th degree that goes through a set of points that  
-% are in the  m-by-3  table and with the same  derivatives as f(x) at those points.
+% Find a polynomial H(x) of at most£¨2m-1)th degree that goes through a set of points  
+% that are in the m-by-3 table and with the same  derivatives as f(x) at those points.
 % 10170437 Mark Taylor
 function [fun, newTable] = Hermite(table)
 % table=[X,f(X),f'(X)], where X, f(X) and f'(X) are given column vectors of m-th dimension

@@ -1,5 +1,5 @@
-% Evaluate the value at x of a Newton interpolating polynomial of degree-th
-% degree which is determined by the preceding (degree+1) points in arg table.
+% Evaluate the value at x of a Newton interpolating polynomial of degree at most
+% degree  which is determined by the  preceding  (degree+1) points in arg table.
 % 10170437 Mark Taylor
 function key = NewtonEvalAt(table,x,degree)
 % table=[X,f(X)], where X and f(X) are given column vectors of m-th dimension
