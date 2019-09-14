@@ -3,8 +3,8 @@
 % 10170437 Mark Taylor
 function key = NewtonEvalAt(table,x,degree)
 % table=[X,f(X)], where X and f(X) are given column vectors of m-th dimension
-% x is the point to be evaluated
-% degree is the degree of the Newton interpolating polynomial to be approximated as
+% x: a scalar or a vector to be evaluated
+% degree: the degree of the Newton interpolating polynomial to be approximated as
 
 m=size(table,1);            % the number of known points
 if nargin<3
@@ -27,7 +27,7 @@ for j=3:n
         
     N=1;
     for k=1:j-2
-       N=N*(x-table(k,1));
+       N=N.*(x-table(k,1));     % here use .* to combine the vector input x
     end
     
     key=key+table(j-1,j)*N;
