@@ -19,7 +19,7 @@ Y2=subs(P10,x,t);
 
 % draw an image that consists of P5(x),P10(x) & f(x)=1/(1+x^2)
 figure('Name','stability test','NumberTitle','off');
-plot(t,Y1,'r',t,Y2,'b',t,y,'k');
-legend('P5(x)','P10(x)','f(x)');
+plot(x2,y2,'o',t,Y1,'r',t,Y2,'b',t,y,'k');
+legend('sample points','P5(x)','P10(x)','f(x)');
 title('Unstability of high degree interpolating polynomial');
 
