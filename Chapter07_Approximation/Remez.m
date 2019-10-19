@@ -1,4 +1,4 @@
-% Remez's 1st algorithm£¬to find an optimal polynomial that can best approx f(x)
+% Remez's 1st algorithm, to find an optimal polynomial that can best approx f(x)
 % 10170437 Mark Taylor
 function [pn,Enf,x,k]=Remez(f,x,y,a,b,epsilon,maxIt)
 %INPUT:
@@ -56,7 +56,7 @@ for k=1:maxIt
     g=pn-f(t);  % error function g(t)=pn(t)-f(t)
     
     % compute sup g(t), a<=t<=b, and find xstar which is the sup point
-    xslv=solve(diff(g,t)==0,t); % all solutions (may lie in outside [a,b])
+    xslv=vpasolve(diff(g,t)==0,t); % all solutions (may lie in outside [a,b])
     xslv=double(xslv);
     n0=length(xslv);
     ga=abs(subs(g,t,a));
@@ -86,6 +86,7 @@ for k=1:maxIt
         if abs(xstar-x(i))<=epsilon
             Enf=vpa(sup,7);
             pn=vpa(pn,7);
+            fprintf('Return owing to xstar-x(i)<=epsilon\n')
             return;
         end
     end
@@ -161,6 +162,7 @@ for k=1:maxIt
     if stop==true
         Enf=vpa(sup,7);
         pn=vpa(pn,7);
+        fprintf('Return owing to a^(k+1)-a^(k)<=epsilon\n')
         return;
     else % update X0
         X0=X1;

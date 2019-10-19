@@ -24,8 +24,6 @@ title('Linear Optimal Polynomial')
 % quadratic approximation test
 x2=[0.1,0.3,0.7,0.9];
 y2=f(x2);
-% There would have some warnings when we attempt to solve its sup point by 
-% finding all extreme points and comparing those extremum values. Ignore them!
 [pn2,Enf2,x2,k2]=Remez(f,x2,y2,a,b) 
 g2=pn2-f(t);
 vpa(subs(g2,t,x2),5)
