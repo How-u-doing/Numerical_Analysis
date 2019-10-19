@@ -1,54 +1,36 @@
-% Remez's 1st algorithm test on polynomials
-% Of course, when no. of test points is no less than the degree of f(x) plus
-% 2, we can get goddamn perfect results, but we can use other more effective
-% algorithms to determine such pricise polynomial. Our interest is, however, 
-% try to find a lower degree optimal polyniomial to approximate a higher one.
+% Remez's 1st algorithm's test on polynomials over interval [a,b].
+% Of course, when the no. of test points is no less than the degree of f(x) 
+% plus 2, we can get goddamn perfect approximation: f(x) itself. But we can 
+% use other easier & more effective algorithms to determine such polynomial.
+% Our interest is, however, to try to find an optimal polyniomial of lower
+% degree that can best approximate it. 
+% Let f(x)=an*x^n+a(n-1)*x^(n-1)+...+a1*x+a0, an~=0, then its (n-1)th degree
+% optimal polynomial is: g(x)=an*q(x)+a(n-1)*x^(n-1)+...+a1*x+a0, where q(x)
+% is the (n-1)th degree optimal polynomial of x^n. And another useful and
+% important conclusion is: En(f)=|an|*((b-a)/2)^n * 2^(1-n). Check it!
 % 10170437 Mark Taylor
-f=@(x)x.^5-5*x.^2+9;% Try: change to 2*x.^3+x.^5-x.^6-x+6, 3*x.^2./(5-x)
-a=-2;b=2;
-syms t;
-% click <Run> or umcomment others to focus on a particular test
-% you can also just choose one test and change f,a,b,x to play around
+f=@(x)3*x.^5-5*x.^2+9; % En(f)=3*((3+1)/2)^5 * 2^(-4)=6
+% f=@(x)x.^5; % get our q(x) and *3, then -5*x.^2+9 to campare above result
+a=-1;b=3;
+% Try: --> play around with these input arguments f,a,b,x
 
-% linear approximation test
-x1=[-1,0,1];
-y1=f(x1);
-[pn1,Enf1,x1,k1]=Remez(f,x1,y1,a,b)
-% you can verify the validity like this
-g1=pn1-f(t);
-vpa(subs(g1,t,x1),5)
-xx=a:.02:b;
-ypn1=subs(pn1,t,xx);
-figure
-% When f''(x)>0 (e.g. x.^4+x.^2-7), -1->a, 1->b, and '--r' is parallel to line 'b'
-plot(xx,f(xx),'g',xx,ypn1,'--r',[a b],[f(a),f(b)],'b')
+n=4; % <-- change degree here
+x=linspace(a,b,n+2); % evenly spaced test points
+%x=[1.1 2.2 3.3 4.4 5]; % <-- or you provide some random test points (sorted) here
+
+syms t;y=f(x);
+[pn,Enf,x,k]=Remez(f,x,y,a,b)
+xx=a:.01:b;
+ypn=subs(pn,t,xx);figure
+plot(xx,f(xx),'g',xx,ypn,'--r')
 legend('Original Function','Optimal Polynomial')
-title('Linear Optimal Polynomial')
 
-% quadratic approximation test
-x2=[0.1,0.3,0.7,0.9];
-y2=f(x2);
-[pn2,Enf2,x2,k2]=Remez(f,x2,y2,a,b) 
-g2=pn2-f(t);
-vpa(subs(g2,t,x2),5)
-xx=a:.02:b;
-ypn2=subs(pn2,t,xx);
-figure
-plot(xx,f(xx),'g',xx,ypn2,'--r')
-legend('Original Function','Optimal Polynomial')
-title('Quadratic Optimal Polynomial')
-
-% higher degree (5th degree) optimal polynomial test
-x5=[-1,-0.5,0,0.3,0.4,0.6,0.7];
-y5=f(x5);
-[pn5,Enf5,x5,k5]=Remez(f,x5,y5,a,b)
-g5=pn5-f(t);
-vpa(subs(g5,t,x5),5)
-xx=a:.02:b;
-ypn5=subs(pn5,t,xx);
-figure
-plot(xx,f(xx),'g',xx,ypn5,'--r')
-legend('Original Function','Optimal Polynomial')
-title('5th-degree Optimal Polynomial')
-
+% If you see the error function having at least n+2 alternative signs of 
+% max values (they are equal in absolute values), it means this is the 
+% very optimal function we are looking for.
+err=pn-f(t);
+max_err=vpa(subs(err,t,x),5)  % campare to the summit of the graph to verify
+yerr=subs(err,t,xx); figure;
+plot(xx,yerr)
+legend('Error function')
 
