@@ -1,9 +1,11 @@
 % Remez's 2nd algorithm£¬to find an optimal polynomial that can best approx f(x)
-% Note that this function has to calculate & compare massive function values
-% to determine the max error points, which makes k very large, whereas the
-% measure adopted in Remez's 1st algorithm (use syms and solve differential
-% equations) can elude it. But it also costs a lot for the latter to solve
-% differential equations!
+% Note that this function has to calculate & compare massive function
+% values to determine the max error points,  whereas the measure we 
+% adopted in Remez's 1st algorithm (use syms and solve differential
+% equations) can elude it. But it also costs a lot for the latter to
+% solve differential equations!  In general, when we call these two
+% functions (Remez.m & Remez2.m) for approximating the same function, 
+% Remez2.m runs faster (doesn't need to handle with symbolic stuff).
 % 10170437 Mark Taylor
 function [p,Enf,x,k]=Remez2(f,x,y,a,b,epsilon,maxIt)
 %INPUT:
@@ -61,7 +63,7 @@ for k=1:maxIt
     % Let's adopt a seemingly dumb method to find the max error point
     for i=1:n+2
         % this job costs lots of time
-        dx=eta(i):1e-4:eta(i+1);
+        dx=eta(i):1e-5:eta(i+1);
         [M,idx]=max(abs(f(dx)-polyval(p,dx)));
         x(i)=dx(idx);   % update x
     end
