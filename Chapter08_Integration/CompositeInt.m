@@ -2,16 +2,19 @@
 function T=CompositeInt(f,a,b,n,method)
 
 h=(b-a)/n;
-T=0; S=f(a+1/2*h);
+T=0;
 for i=1:n-1
     T=T+f(a+i*h);
-    S=S+f(a+(i+1/2)*h);
 end
 T=f(a)+2*T+f(b);
-if method=="trapezium"
+if method=="trapezoid"
     T=h/2*T;
     return;
 elseif method=="Simpson"
+    S=0;
+    for i=0:n-1
+        S=S+f(a+(i+1/2)*h);         
+    end
     T=h/6*(4*S+T);
     return;     
 else
