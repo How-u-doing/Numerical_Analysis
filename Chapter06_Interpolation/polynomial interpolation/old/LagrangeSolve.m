@@ -1,6 +1,6 @@
 % Give a set of known points of a function to find the approximate zero(s).
 % Implementation by constructing a Lagrange interpolating polynomial
-%£¨ x=P(y), calculate the function value at y=0 )
+%Â£Â¨ x=P(y), calculate the function value at y=0 )
 % See also LagrangePS.m which substitutes syms x with the exact number x
 % in function LagrangeEvalAt(), and which consequently computes faster.
 % 10170437 Mark Taylor
