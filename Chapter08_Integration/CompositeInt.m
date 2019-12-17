@@ -1,5 +1,5 @@
 % Composite Integration 
-function T=CompositeInt(f,a,b,n,method)
+function T=CompositeInt(f,a,b,n,method,m)
 
 h=(b-a)/n;
 T=0;
@@ -17,8 +17,15 @@ elseif method=="Simpson"
     end
     T=h/6*(4*S+T);
     return;     
+elseif method=="Gauss"
+    T=0;
+    x=a:h:b;
+    for i=1:n
+        T=T+Gauss_quadrature(f,x(i),x(i+1),m);
+    end
+    return
 else
-    erorr('Method must be either "trapezium" or "Simpson"!')
+    erorr('Method must be either "trapezium" or "Simpson" or "Gauss"!')
 end
 end
 
