@@ -18,7 +18,8 @@ u=@(x)sin(pi*x)+pi*x;
 p=@(x)x.^0; % p(x)=1
 q=@(x)x.*0; % p(x)=0
 a=0;
-b=1;
+% b=1;
+b=3;
 N=[3,5,10];
 
 % Since the dimensions are different, we can't
