@@ -46,7 +46,7 @@ end
 
 h=(b-a)/N;  % step length. no check for N, hhh
 A=zeros(N); % coef matrix, symmetric tridiagonal
-c=zeros(N,1); % right-side vector
+c=zeros(N,1); % right-hand side (RHS) vector
 xx=linspace(a,b,N+1);
 
 % determine tridiagonal elements of A, and right-side vector c
