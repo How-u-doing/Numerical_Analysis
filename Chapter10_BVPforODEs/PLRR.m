@@ -49,14 +49,14 @@ A=zeros(N); % coef matrix, symmetric tridiagonal
 c=zeros(N,1); % right-hand side (RHS) vector
 xx=linspace(a,b,N+1);
 
-% determine tridiagonal elements of A, and right-side vector c
+% determine tridiagonal elements of A, and RHS vector c
 for i=1:N-1
     % Or use MATLAB func <integral> instead of <Gaussquad>.
     % --> <Ctrl + F> --> Replace All. Then go to PLRR_test
     % script file & run it again, it shall get same graph.
     A(i,i)=Gaussquad(p,xx(i),xx(i+2))+...
         Gaussquad(@(x)(x-xx(i)).^2.*q(x),xx(i),xx(i+1))+...
-        Gaussquad(@(x)(xx(i+2)-x).^2.*q(x),xx(i),xx(i+1));    
+        Gaussquad(@(x)(xx(i+2)-x).^2.*q(x),xx(i+1),xx(i+2));    
     A(i,i+1)=-Gaussquad(p,xx(i+1),xx(i+2))+...
         Gaussquad(@(x)(x-xx(i+1)).*(xx(i+2)-x).*q(x),xx(i+1),xx(i+2));
     
