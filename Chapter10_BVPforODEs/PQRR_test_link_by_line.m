@@ -19,32 +19,33 @@ p=@(x)x.^0; % p(x)=1
 q=@(x)x.*0; % p(x)=0
 a=0;
 b=3;
-% b=3;
-N=2*[3,5,10];
+% b=1;
+N=[3,5,10];
 
 % Since the dimensions are different, we can't
 % simply use a matrix for storage. List?
-uc1=PLRR(f,p,q,a,b,N(1)); 
-uc2=PLRR(f,p,q,a,b,N(2)); 
-uc3=PLRR(f,p,q,a,b,N(3)); 
+uc1=PQRR(f,p,q,a,b,N(1)); 
+uc2=PQRR(f,p,q,a,b,N(2)); 
+uc3=PQRR(f,p,q,a,b,N(3)); 
 
 % output coef vector of approx solution in command window
 disp(uc3) 
 
 % plot graphs of exact solution & approximate solutions
-t1=linspace(a,b,N(1)+1);
-t2=linspace(a,b,N(2)+1);
-t3=linspace(a,b,N(3)+1);
+t1=linspace(a,b,2*N(1)+1);
+t2=linspace(a,b,2*N(2)+1);
+t3=linspace(a,b,2*N(3)+1);
 tt=linspace(a,b,100+1);
 
 % approx solutions
-u1=PLRR_intpol(uc1,a,b); % u1=[u(a); uc1]=[0; uc1] 
-u2=PLRR_intpol(uc2,a,b); % u2=[u(a); uc2]=[0; uc3] 
-u3=PLRR_intpol(uc3,a,b); % u3=[u(a); uc3]=[0; uc3] 
+u1=[0;uc1]; % use line instead, NO interpolation
+u2=[0;uc2];
+u3=[0;uc3];
 
 figure
 plot(tt,u(tt),'--b',t1,u1,'r',...
     t2,u2,'g',t3,u3,'m')
 legend('exact',sprintf('N=%d',N(1)),sprintf('N=%d',N(2))...
     ,sprintf('N=%d',N(3)),'Location','northwest')
+
 
