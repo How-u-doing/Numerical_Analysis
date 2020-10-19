@@ -38,7 +38,7 @@ for i=1:N
     h(i)=(b-a)/n;
     tt=linspace(a,b,5*n+1).'; % interpolation every 5 points
     
-    uc1=PLRR(f,p,q,a,b,n);
+    uc1=PLRR(f,p,q,a,b,n); % try also 2*n parts. See footnote for analysis
     y1=PLRR_intpol(uc1,tt,a,b);
     err(i,1)=max(abs(u(tt)-y1));
     
@@ -70,4 +70,11 @@ k_PLRR = P1(2)                % its convergence order should amount to its slope
 P2=lsq(logh,loge(:,2),1);
 k_PQRR = P2(2)
 
-
+%%%%%%%%%%%%% footnote %%%%%%%%%%%%%
+% err = O(h^2) = C*h^2
+% log(err') = log(C*(h/2)^2)
+%           = log(err) - log(4)
+% So doubling the no. of intervals
+% just makes 'PLRR' translate down,
+% remaining its slope unchanged.
+%%%%%%%%%%%%% footnote %%%%%%%%%%%%%
