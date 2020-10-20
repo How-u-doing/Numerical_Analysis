@@ -19,5 +19,24 @@ for i=1:N
     end
 end
 
+% When xq is an *ordered* further division based on xx,
+% for example, xq = linspace(a,b,10*N+1), then an eager
+% version can be developed like this:
+%{
+k = (m-1)/N;
+for i=1:N
+    k1 = 1+k*(i-1);
+    k2 = 1+k*i;
+    for j=k1:k2
+        if xq(j)>=xx(i) && xq(j)<=xx(i+1)
+            if i==1
+                u(j)=uc(1)*(xq(j)-xx(1))/h;
+                continue
+            end
+            u(j)=uc(i-1)*(-(xq(j)-xx(i+1))/h)+uc(i)*(xq(j)-xx(i))/h;
+        end
+    end
+end
+%}
 end
 
