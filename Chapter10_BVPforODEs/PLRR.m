@@ -71,9 +71,10 @@ A=A+diag(diag(A,1),-1); % let A_{i,i-1}=A_{i-1,i}
 A=A/h^2;
 c=c/h;
 
+uc = solveTridiag(A,c); % O(n) operations
 % uc=A\c; % coef vector of approx solution
 % or use user-defined function <GauEli>
-uc=GauEli(A,c);
+% uc=GauEli(A,c);       % O(n^3) operations
 
 end
 
