@@ -32,12 +32,15 @@ uc3=PQRR(f,p,q,a,b,N(3));
 disp(uc3) 
 
 % plot graphs of exact solution & approximate solutions
+t1=linspace(a,b,N(1)+1);
+t2=linspace(a,b,N(2)+1);
+t3=linspace(a,b,N(3)+1);
 tt=linspace(a,b,100+1);
 
 % approx solutions
-u1=PQRR_intpol(uc1,tt,a,b);
-u2=PQRR_intpol(uc2,tt,a,b);
-u3=PQRR_intpol(uc3,tt,a,b);
+u1=PQRR_intpol(t1,[0;uc1],tt);
+u2=PQRR_intpol(t2,[0;uc2],tt);
+u3=PQRR_intpol(t3,[0;uc3],tt);
 
 figure
 plot(tt,u(tt),'--b',tt,u1,'r',...

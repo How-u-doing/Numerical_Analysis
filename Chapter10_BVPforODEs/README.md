@@ -1,4 +1,6 @@
-# Test 1
-![](quadratic_element_img/error_compare_test_1.png)
-# Test 2
-![](quadratic_element_img/error_compare_test_2.png)
+# Error Estimates for TPBVP FEM under L^{inf} Norm
+![](quadratic_element_img/Error_Estimates_under_L_inf_Norm.png)
+# Error Estimates for TPBVP FEM under L^2 Norm
+![](quadratic_element_img/Error_Estimates_under_L_2_Norm.png)
+# Error Estimates for TPBVP FEM under H^1 Norm
+![](quadratic_element_img/Error_Estimates_under_H_1_Norm.png)

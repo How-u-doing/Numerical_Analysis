@@ -33,12 +33,15 @@ uc3=PLRR(f,p,q,a,b,N(3));
 disp(uc3) 
 
 % plot graphs of exact solution & approximate solutions
+t1=linspace(a,b,N(1)+1);
+t2=linspace(a,b,N(2)+1);
+t3=linspace(a,b,N(3)+1);
 tt=linspace(a,b,100+1);
 
 % approx solutions
-u1=PLRR_intpol(uc1,tt,a,b); % Note that these interpolating points are also on
-u2=PLRR_intpol(uc2,tt,a,b); % those line segments, which means we can actually
-u3=PLRR_intpol(uc3,tt,a,b); % skip this phase, and replace with [0;uc] instead.
+u1=PLRR_intpol(t1,[0;uc1],tt); % Note that these interpolating points are also on
+u2=PLRR_intpol(t2,[0;uc2],tt); % those line segments, which means we can actually
+u3=PLRR_intpol(t3,[0;uc3],tt); % skip this phase, and replace with [0;uc] instead.
 
 figure
 plot(tt,u(tt),'--b',tt,u1,'r',...
