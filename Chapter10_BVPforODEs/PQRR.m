@@ -67,31 +67,31 @@ for j = 1 : N
     % --> <Ctrl + F> --> Replace All. Then go to PQRR_test
     % script file & run it again, it shall get same graph.
     A(2*j-1,2*j-1) = Gaussquad(@(k)(p(k*h+xx(j)).*k2(k).^2+...
-        q(k*h+xx(j)).*phi2(k).^2)/h, 0, 1);
+        q(k*h+xx(j)).*phi2(k).^2)*h, 0, 1); % omit *h in each item for optimization
     A(2*j-1,2*j) = Gaussquad(@(k)(p(k*h+xx(j)).*k2(k).*k3(k)+...
-        q(k*h+xx(j)).*phi2(k).*phi3(k))/h, 0, 1);
+        q(k*h+xx(j)).*phi2(k).*phi3(k))*h, 0, 1);
     A(2*j,2*j-1) =  A(2*j-1, 2*j ); % symmetric
     
     A(2*j,2*j) = Gaussquad(@(k)(p(k*h+xx(j)).*k3(k).^2+...
-        q(k*h+xx(j)).*phi3(k).^2)/h, 0, 1);
+        q(k*h+xx(j)).*phi3(k).^2)*h, 0, 1);
     if(j<N)
         A(2*j,2*j)=A(2*j,2*j)+Gaussquad(@(k)(p(k*h+xx(j+1)).*k1(k).^2+...
-            q(k*h+xx(j+1)).*phi1(k).^2)/h, 0, 1);
+            q(k*h+xx(j+1)).*phi1(k).^2)*h, 0, 1);
         
         A(2*j,2*j+1) = Gaussquad(@(k)(p(k*h+xx(j+1)).*k1(k).*k2(k)+...
-            q(k*h+xx(j+1)).*phi1(k).*phi2(k))/h, 0, 1);
+            q(k*h+xx(j+1)).*phi1(k).*phi2(k))*h, 0, 1);
         
         A(2*j,2*j+2) = Gaussquad(@(k)(p(k*h+xx(j+1)).*k1(k).*k3(k)+...
-            q(k*h+xx(j+1)).*phi1(k).*phi3(k))/h, 0, 1);
+            q(k*h+xx(j+1)).*phi1(k).*phi3(k))*h, 0, 1);
         
         A(2*j+1,2*j) = A( 2*j ,2*j+1);
         A(2*j+2,2*j) = A( 2*j ,2*j+2);
     end
     
-    c(2*j-1) = Gaussquad(@(k)(f(k*h+xx(j)).*phi2(k))/h, 0, 1);
-    c( 2*j ) = Gaussquad(@(k)(f(k*h+xx(j)).*phi3(k))/h, 0, 1);
+    c(2*j-1) = Gaussquad(@(k)(f(k*h+xx(j)).*phi2(k))*h, 0, 1);
+    c( 2*j ) = Gaussquad(@(k)(f(k*h+xx(j)).*phi3(k))*h, 0, 1);
     if(j<N)
-        c(2*j)=c(2*j)+Gaussquad(@(k)(f(k*h+xx(j+1)).*phi1(k))/h, 0, 1);
+        c(2*j)=c(2*j)+Gaussquad(@(k)(f(k*h+xx(j+1)).*phi1(k))*h, 0, 1);
     end
 end
 
