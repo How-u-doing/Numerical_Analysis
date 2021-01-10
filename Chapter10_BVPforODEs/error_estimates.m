@@ -1,4 +1,4 @@
-% Error compare between PLRR and PQRR
+% Error Estimates for PLRR and PQRR
 % See error analysis at <error_analysis.mlx>
 
 % (1)  infinity norm --> infinity norm
@@ -91,7 +91,7 @@ plot(logh,2*logh,logh,3*logh)
 legend('PLRR','PQRR','2*log(h)','3*log(h)','Location','northwest')
 xlabel('log(h)')
 ylabel('log(err)')
-title('Error Estimates under L^\infty Norm')
+title('Error Estimates under $L^\infty$ Norm','interpreter','latex')
 
 % Get convergence orders of these methods (i.e. their slopes)
 % Or use built-in func polyfit instead
@@ -111,7 +111,7 @@ plot(logh,2*logh,logh,3*logh)
 legend('PLRR','PQRR','2*log(h)','3*log(h)','Location','northwest')
 xlabel('log(h)')
 ylabel('log(err)')
-title('Error Estimates under L^2 Norm')
+title('Error Estimates under $L^2$ Norm','interpreter','latex')
 
 P1_L2=lsq(logh,loge_L2(:,1),1);
 k_PLRR_L2 = P1_L2(2)
@@ -127,7 +127,7 @@ plot(logh,logh,logh,2*logh)
 legend('PLRR','PQRR','log(h)','2*log(h)','Location','northwest')
 xlabel('log(h)')
 ylabel('log(err)')
-title('Error Estimates under H^1 Norm')
+title('Error Estimates under $H^1$ Norm','interpreter','latex')
 
 P1_H1=lsq(logh,loge_H1(:,1),1);
 k_PLRR_H1 = P1_H1(2)
