@@ -1,12 +1,12 @@
 function [L_inf_err,L2_err,H1_semi_err,H1_err] = errorEstimates(p,t,u,u_r,grad_u_r)
 
-% 6-point quadrature rule of order 4 on unit triangle [0 0;0 1;1 0]
+% 6-point quadrature rule of order 4 on the unit triangle [0 0;1 0;0 1]
 w = [1/60; 1/60; 1/60; 9/60; 9/60 ; 9/60];
 x = [1/2 0; 1/2 1/2; 0 1/2; 1/6 1/6; 1/6 2/3; 2/3 1/6];
 
 nCells = size(t,1);
-unit_basis = [1-x(:,1)-x(:,2), x(:,1), x(:,2)]; % shape functions
-grad_unit_basis = [-1 -1 1 0 0 1];
+ref_shape_val = [1-x(:,1)-x(:,2), x(:,1), x(:,2)]; % values on quadrature points
+grad_ref_shape = [-1 -1;1 0;0 1]; % gradients of reference shape functions
 
 L_inf_err = max(abs(u_r(p(:,1),p(:,2))-u));
 L2_err = 0; H1_semi_err = 0; H1_err = 0;
@@ -17,7 +17,7 @@ for k = 1 : nCells
     % then
     %        loc_L2_err = GaussTriaQuad(triangle, u_err);
     
-    vidx = t(k,:);
+    vidx = t(k,:); % global vertex indices of k-th cell
     
     bK = p(vidx(1),:);
     BK = [p(vidx(2),:)-bK; p(vidx(3),:)-bK];
@@ -29,12 +29,12 @@ for k = 1 : nCells
     u_EX = u_r(y(:,1),y(:,2));
     grad_u_EX = grad_u_r(y(:,1),y(:,2));
     
-    u_FE = u(vidx(1))*unit_basis(:,1)+u(vidx(2))*unit_basis(:,2)+ ...
-                                      u(vidx(3))*unit_basis(:,3);
+    u_FE = u(vidx(1))*ref_shape_val(:,1)+u(vidx(2))*ref_shape_val(:,2)+ ...
+                                         u(vidx(3))*ref_shape_val(:,3);
     
-    grad_u_FE = (u(vidx(1))*grad_unit_basis(1:2)+ ...
-                 u(vidx(2))*grad_unit_basis(3:4)+ ...
-                 u(vidx(3))*grad_unit_basis(5:6))*(inv(BK)).';
+    grad_u_FE = (u(vidx(1))*grad_ref_shape(1,:)+ ...
+                 u(vidx(2))*grad_ref_shape(2,:)+ ...
+                 u(vidx(3))*grad_ref_shape(3,:))*(inv(BK)).';
     
     tmp = sum(w.*(u_EX-u_FE).^2)*det_BK;
     L2_err = L2_err+tmp;

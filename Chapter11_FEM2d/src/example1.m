@@ -48,9 +48,9 @@ legend('maximum norm','L^2 norm','rate 2','H^1 semi-norm', ... 'H^1 norm',
 % title('Convergence Rates');
 % Since L^2 norm errors are rather small when compared to H^1 semi-norm,
 % H^1 semi-norm errors are almost equal to H^1 semi norm, so in the plot
-% H^1 semi-norm and H^1 norm almost coincide.
+% H^1 semi-norm and H^1 norm almost coincide if we draw them together.
 
-%=================================================================
+%=========================================================================
 
 function [dofs,L_inf_err,L2_err,H1_semi_err,H1_err] = run_example1(n)
 x=[-1/2 1]; y=[-1 1];
@@ -60,17 +60,19 @@ n_x=n; n_y=n;
 [p,t] = generateMesh(x,y,n_x,n_y);
 dofs = size(p,1);
 
-A = assembleMatrix(p,t);
+% alpha = @(x,y) 1; % alpha = @(x,y) 1*[1 0;0 1];
+% gamma = @(x,y) x.*0+y.*0;
+A = assembleMatrix(p,t); % A = assembleReactionDiffusionMatrix(p,t,alpha,gamma);
 f = @(x,y) 2*pi^2*cos(pi*x).*cos(pi*y);
-phi = assembleVector(p,t,f);
+phi = assembleVector(p,t,f); % phi = assembleVectorByGaussQuad(p,t,f);
 
 % process boundary conditions
 nb_func = @(y) -pi*cos(pi*y);
-phi = processNeummanBoundary(phi,p,nb_func);
+phi = processNeumannBoundary(phi,p,nb_func);
 db_func = @(x,y) cos(pi*x).*cos(pi*y);
 [A,phi] = processDirichletBoundary(A,phi,p,db_func);
 
-% solve the linear systems of equations
+% solve the linear system of equations
 u = A\phi;
 
 u_r = @(x, y) cos(pi*x).*cos(pi*y);
@@ -92,7 +94,7 @@ title('exact solution')
 
 end
 
-function phi = processNeummanBoundary(phi,p,nb_func)
+function phi = processNeumannBoundary(phi,p,nb_func)
 % $g=\nabla{u}\cdot\boldsymbol{n}=\pi\,sin(\pi x)\,cos(\pi y)$
 % $\int_{\Gamma}\,gv\,ds=\sum_i\int_{{\Gamma}_i}\,g\,(v_h^{s(i)}+v_h^{e(i)})\,ds$
 
