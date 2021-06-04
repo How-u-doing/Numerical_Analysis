@@ -1,0 +1,25 @@
+\begin{tikzpicture}			
+	\draw[blue] (0,0)--(3,0)--(1.5,2)--cycle;			
+	\draw[xshift=5cm,blue] (0,0)--(3,0)--(1.5,2)--cycle;
+	\draw[xshift=10cm,blue] (0,0)--(3,0)--(1.5,2)--cycle;			
+	\draw[red] (.75,1)--(2.25,1)--(1.5,0)--cycle;
+	\draw[red,xshift=10cm] (1.5,.8)--(0,0)
+						(1.5,.8)--(1.5,2) (1.5,.8)--(3,0);
+	
+	\foreach \m in {
+		(0,0),(3,0),(1.5,2),
+		(5,0),(8,0),(6.5,2),
+		(10,0),(13,0),(11.5,2)} {				
+		\fill[magenta] \m circle (3pt);
+	}		
+	\foreach \g in {
+		(.75,1),(2.25,1),(1.5,0),(11.5,.8) } {				
+		\fill[mid-green] \g circle (3pt);
+	}
+	
+	\draw[<-,red] (2.8,.9) -- (5.2,.9);
+	\draw[->,red,xshift=5cm] (2.8,.9) -- (5.2,.9);			
+	
+	\path (4,1.1) node{Method \greencircled{1}}
+		++(0:5cm) node{Method \greencircled{2}};
+\end{tikzpicture}

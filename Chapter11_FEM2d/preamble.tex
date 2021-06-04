@@ -1,0 +1,173 @@
+% !TeX program = pdflatex
+\documentclass[a4paper,english]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc} % to use the accented characters as individual glyphs
+						  % automatically hyphenate words for European 
+						  % languages (German, French, Italian, etc.)
+\usepackage[USenglish]{babel}
+\usepackage[none]{hyphenat}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\newcommand{\vertiii}[1]{{\left\vert\kern-0.4ex\left\vert\kern-0.4ex\left\vert
+	#1 \right\vert\kern-0.4ex\right\vert\kern-0.4ex\right\vert}}
+\usepackage{bm}
+\usepackage{cases}
+\usepackage{esvect}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\renewcommand\qedsymbol{$\square$}
+
+\usepackage[framemethod=TikZ]{mdframed} % to create elegant boxes, frames
+\mdfdefinestyle{mdftheoremstyle}{
+	linecolor=green,linewidth=1pt,roundcorner=10pt,
+	frametitlerule=true, frametitlerulewidth=.5pt,
+	frametitlebackgroundcolor=green!20,
+	innertopmargin=\topskip,
+}
+\mdfdefinestyle{mdfdefinitionstyle}{
+	linecolor=blue,linewidth=1pt,roundcorner=10pt,
+	frametitlerule=true, frametitlerulewidth=.5pt,
+	frametitlebackgroundcolor=blue!20,
+	innertopmargin=\topskip,
+}
+\mdtheorem[style=mdfdefinitionstyle]{mdfdef}{Definition}[section]
+\mdtheorem[style=mdftheoremstyle]{mdfthm}{Theorem}[section]
+\mdtheorem[style=mdftheoremstyle]{mdflma}{Lemma}[section]
+%% NOTE %%
+% To be consistent, choose either mdf[def,thm,lma] or the standard ones
+% DON'T MIX THEM
+
+
+\usepackage{standalone}  % to compile alone for efficiency
+%\usepackage{afterpage}  % used when adding the cover page
+%\usepackage{pdfpages}   % for inclusion of external multi-page PDF
+\usepackage{xcolor}
+\usepackage{colortbl}
+
+% some user-defined colors
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{background-color}{rgb}{0.95,0.95,0.92}
+\definecolor{brilliant-blue}{RGB}{0, 176, 220}
+\definecolor{mid-green}{RGB}{0,167,0}
+
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{wrapfig}
+\usepackage[justification=raggedright] % prevents spiltting words with hyphens
+			{caption}
+%\usepackage{pgfplots} % includes tikz
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,calc,matrix,hobby}
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+	\node[shape=circle,text=white,fill=black,inner sep=.5pt] (char) {#1};}}	
+\newcommand*\orangecircled[1]{\tikz[baseline=(char.base)]{
+	\node[shape=circle,fill=orange,inner sep=.5pt] (char) {#1};}}
+\newcommand*\greencircled[1]{\tikz[baseline=(char.base)]{
+	\node[shape=circle,text=white,fill=mid-green,inner sep=.5pt] (char) {#1};}}
+\newcommand\greencircle{\tikz[baseline=(char.base)] 			
+	\node[fill=mid-green,circle]{};}
+\usepackage{tkz-euclide} % \tkzMarkAngle
+
+
+\usepackage{algorithm}
+%\usepackage{algorithmicx} % automatically loaded by `algpseudocode`
+\usepackage{algpseudocode} % layout for algorithmicx
+
+\usepackage[toc,page]{appendix}
+%\usepackage[square,numbers]{natbib}
+%\bibliographystyle{abbrvnat}
+
+% configuration of biblatex with biber:
+%https://tex.stackexchange.com/questions/154751/biblatex-with-biber-configuring-my-editor-to-avoid-undefined-citations
+\usepackage[
+backend=biber,
+style=alphabetic,
+sorting=ynt
+]{biblatex}
+\addbibresource{bibliography.bib}
+
+
+\usepackage[newfloat]{minted} % compile with -shell-escape flag
+% outputdir=./tmp causes problems, since \minted still looks for 
+% temporary files in the document root directory.
+
+%\renewcommand{\listingscaption}{Code}% only applies when newfloat is unset
+\renewcommand*\listingname{Code listing}
+
+% minted lineno style
+\renewcommand{\theFancyVerbLine}{\sffamily
+	\textcolor{codegray}{\tiny
+		%		\scriptsize% \oldstylenums
+		{\arabic{FancyVerbLine}}}}
+\setminted{
+	mathescape=true,
+%	escapeinside=||,
+	linenos=true,
+	numbersep=1.5mm,
+	autogobble,
+	breaklines,	breakanywhere,
+	fontsize=\footnotesize,
+	style=xcode,
+	bgcolor=background-color
+}
+% Create a new environment for breaking code listings across pages.
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{} 	% clears the header and footer of default "plain" page style
+\lhead{\leftmark}
+\rhead{\thepage}
+\chead{\hyperlink{Contents}{Contents}}
+
+\usepackage{hyperref, bookmark}
+
+\hypersetup{
+	pdftitle = {FEM2d},
+	pdfsubject = {Numerical Analysis},
+	pdfkeywords = {Finite Element Methods},
+	pdfauthor = {Mark Taylor},
+	bookmarks = true,
+	bookmarksnumbered = true,
+	pdfpagelabels = true,
+	pdfpagemode = UseOutlines,
+	pdfstartview = FitH,
+	linktocpage = true,
+	colorlinks = true,
+	citecolor = orange, 
+	linkcolor = brilliant-blue,
+	urlcolor = magenta,
+	plainpages = false
+}
+
+\setcounter{section}{-1}
+\linespread{1.1}
+
+% vertical space for tabular before/after \hline
+\newcommand\Tstrut{\rule{0pt}{3.0ex}}         % = `top' strut
+\newcommand\Bstrut{\rule[-1.5ex]{0pt}{0pt}}   % = `bottom' strut
+\newcommand\grad{\mathbf{grad}\,}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\rd}{\mathrm{d}}
+\newcommand{\dx}{\rd\bx}
+\newcommand{\bA}{\mathbf{A}}
+\newcommand{\ba}{\bm{a}}
+\newcommand{\inangle}[1]{\langle #1 \rangle}
+
+\def\Plus{\texttt{+}}
+\def\Minus{\texttt{-}}
+
+

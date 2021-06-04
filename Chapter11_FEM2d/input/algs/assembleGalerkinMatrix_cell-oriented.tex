@@ -1,0 +1,21 @@
+\begin{algorithmic}[1]
+	\State SparseMatrix $\mathbf{A}\in\mathbb{R}^{N,N},\ 
+				N:=\sharp\mathcal{V}(\mathcal{M})$
+	\State $\mathbf{A}:=\mathbf{0}$
+	\State $M:=\sharp\mathcal{M}$ \Comment{no. of cells}
+	\For{$i=1$ \textbf{to} $M$}
+		\State $K\gets\mathtt{mesh.getElemCoords}(i)$ 
+			\Comment{obtain cell-shape information}
+		\State $\mathbf{A}_K\gets\mathtt{getElemMatrix}(K)$ 
+			\Comment{compute element matrix, see 
+				(\ref{eq:2D element (stiffness) matrix formula},~%
+				 \ref{eq:2D element (stiffness) matrix component}) }
+		\For{$k=1$ \textbf{to} $3$}
+			\For{$j=1$ \textbf{to} $3$}
+				\State $\mathbf{A}(i:\bx^i=\ba_K^k,\ell:\bx^\ell=\ba_K^j)\; 
+					+\!\!= \mathbf{A}_K(k,j)$ \Comment{see Figure
+				 \ref{tikz:2D_cell-oriented_distribution_by_element_matrices}}
+			\EndFor
+		\EndFor	
+	\EndFor	
+\end{algorithmic}

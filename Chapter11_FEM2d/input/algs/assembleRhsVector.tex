@@ -1,0 +1,22 @@
+\begin{algorithmic}[1]		
+	\Procedure{assembleRhsVector}{Mesh $\mathcal{M}$}
+	\State $\vv{\bm{\varphi}} =	\textrm{Vector}(N)$		
+				\Comment{preallocate appropriate memory}
+	\ForAll{$K\in \mathcal{M}$} \Comment{loop over all cells}
+		\State $Q(K)=\texttt{no\_loc\_shape\_functions}(K)$
+		\State $\vv{\bm{\varphi}}_K=\texttt{getElementVector}(K)$
+			\Comment{compute element vector, see 
+				\eqref{eq:2D element (load) vector formula}/%
+				\eqref{eq:2D element vector quadrature formula}}
+		\State Vector $ idx = \{\texttt{locglobmap}(K,1),..., 
+				\texttt{locglobmap}(K,Q(K))\}$ \Comment{get global indices}
+		\For{$i = 1$ \textbf{to}  $Q(K)$}		
+			\State $\vv{\bm{\varphi}}(idx(i))=\vv{\bm{\varphi}}(idx(i))+
+					\vv{\bm{\varphi}}_K(i)$
+			\Comment{see Figure 
+				\ref{tikz:2D_cell-oriented_distribution_by_element_vectors}}
+		\EndFor
+	\EndFor
+	\State \Return $\vv{\bm{\varphi}}$
+	\EndProcedure
+\end{algorithmic}

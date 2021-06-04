@@ -1,0 +1,26 @@
+\begin{algorithmic}[1]		
+	\Procedure{assembleGalerkinMatrix}{Mesh $\mathcal{M}$}
+	\State $\mathbf{A}=N\times N$ sparse matrix		
+				\Comment{allocate zero sparse matrix}
+	\ForAll{$K\in \mathcal{M}$} \Comment{loop over all cells}
+		\State $Q(K)=\texttt{no\_loc\_shape\_functions}(K)$
+		\State $\mathbf{A}_K=\texttt{getElementMatrix}(K)$
+			\Comment{compute element matrix, see 
+				(\ref{eq:2D element (stiffness) matrix formula},~%
+				 \ref{eq:2D element (stiffness) matrix component},~%
+				 \ref{eq:2D element (mass) matrix formula})/%
+				(\ref{eq:element reaction matrix quadrature formula},~%
+				 \ref{eq:element diffusion matrix quadrature formula}) }
+		\State Vector $ idx = \{\texttt{locglobmap}(K,1),..., 
+				\texttt{locglobmap}(K,Q(K))\}$ \Comment{get global indices}
+		\For{$i=1$ \textbf{to} $Q(K)$}
+			\For{$j=1$ \textbf{to} $Q(K)$}
+				\State $\mathbf{A}(idx(i),idx(j))\; +\!\!=
+					\mathbf{A}_K(i,j)$ \Comment{see Figure
+				\ref{tikz:2D_cell-oriented_distribution_by_element_matrices}}
+		\EndFor
+		\EndFor
+	\EndFor
+	\State \Return $\mathbf{A}$
+	\EndProcedure
+\end{algorithmic}

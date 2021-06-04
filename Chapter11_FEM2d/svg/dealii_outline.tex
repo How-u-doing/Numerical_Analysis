@@ -1,0 +1,24 @@
+%!TeX program = lualatex
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,graphs,graphdrawing}
+\usegdlibrary{layered}
+\begin{document}
+	\begin{tikzpicture}[nodes={text height=.7em,text depth=.2em,
+						draw=black!20,thick, fill=white, font=\footnotesize},
+					>={Stealth[round,sep]},rounded corners,semithick]
+		\graph[layered layout,level distance=1cm,sibling sep=.5em,
+				sibling distance=1cm] {
+			"OpenCASCADE" -- "Mainfold" -> {"Mapping", "Triangulation"};
+%			"PETSc"	-- {"Linear systems", "Linear solvers"};
+			"Mapping"->"FEValues";
+			"Quadrature" -> "FEValues" -> "Linear systems";
+			"Finite	elements" -> {"FEValues", "DoFHandler"};
+			"Gmsh" -- "Triangulation" -> "DoFHandler" -> "Linear systems" ->
+			"Linear solvers" -> "Graphical output" -- {"VisIt", "ParaView"};
+%			"Trilinos" -- {"Linear systems", "Linear solvers"};	
+%			"CUDA" -- {"Linear systems", "Linear solvers"};
+%			"UMFPACK" -- "Linear solvers";
+		};
+	\end{tikzpicture}
+\end{document}

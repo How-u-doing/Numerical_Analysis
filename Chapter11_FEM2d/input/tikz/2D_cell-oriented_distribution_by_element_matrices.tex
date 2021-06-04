@@ -1,0 +1,57 @@
+\begin{tikzpicture}	[>=stealth]
+	
+	\coordinate (A) at (0,3);
+	\coordinate (B) at (10,0);
+	\coordinate (C) at (6,8);
+	\coordinate (D) at (5,1.5); % midpoint of AB
+	\coordinate (E) at (8,4);   % midpoint of BC
+	\coordinate (F) at (3,5.5); % midpoint of CA
+	\coordinate (G) at (5.3,4); % center of gravity
+	
+	\draw[very thick] (A)--(B)--(C)--cycle;
+	\fill[red] (A) circle (4pt) (B) circle (4pt) (C) circle (4pt);
+	\fill[mid-green] (D) circle (4pt) (E) circle (4pt) (F) circle (4pt);
+	
+
+	\matrix [matrix of math nodes,	
+	left delimiter={[},
+	right delimiter={]},
+	inner sep=-2pt,
+	nodes={inner sep=.4em},
+	](M) at (G) {
+		a_{11} &a_{12} &a_{13}\\
+		a_{21} &a_{22} &a_{23}\\
+		a_{31} &a_{32} &a_{33}\\
+	};
+	
+	
+	\path (M.center)++(180:1.8cm) node {$\mathbf{A}_k=$};
+	
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(A)+(-90:3pt) -- (M-1-1);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(B)+(180:3pt) -- (M-2-2);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(C)+(180:3pt) -- (M-3-3);
+		
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(D)+(80:3pt) -- (M-1-2);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(D)+(120:3pt) -- (M-2-1);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(E)+(140:3pt) -- (M-2-3);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(E)+(210:3pt) -- (M-3-2);
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(F)+(-30:3pt) -- (M-1-3);	
+	\draw[<-,line width=1.2pt,blue!20!magenta!50]
+		(F)+(-90:3pt) -- (M-3-1);
+		
+	
+	\path
+		(A)++(10:1cm) node[fill=orange,circle,inner sep=.5pt] {$1$}
+		(B)++(140:1cm) node[fill=orange,circle,inner sep=.5pt] {$2$}
+		(C)++(-80:1cm) node[fill=orange,circle,inner sep=.5pt] {$3$};
+	
+\end{tikzpicture}
+

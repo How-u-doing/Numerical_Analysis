@@ -1,0 +1,26 @@
+\begin{algorithmic}[1]
+	\ForAll{$e\in\mathcal{E}(\mathcal{M})$}
+		\State $(i,j):=\textrm{vertex numbers of endpoints of } e$
+		\State $(\mathbf{A})_{ij}\gets 0,\ (\mathbf{A})_{ji}\gets 0$
+		\ForAll{trangle $K$ adjacent to $e$}
+			\State find local numbers $l,m\in\{1,2,3\}$ of endpoints of $e$
+			\State $(\mathbf{A})_{ij}\gets(\mathbf{A})_{ij}+
+				(\mathbf{A}_K)_{lm}$ \Comment{ see Figure 
+				\ref{tikz:2D_assemble_two_element_matrices} }
+			\State $(\mathbf{A})_{ji}\gets(\mathbf{A})_{ji}+
+				(\mathbf{A}_K)_{ml}$ \Comment{ see Figure 
+				\ref{tikz:2D_assemble_two_element_matrices}	}		
+		\EndFor	
+	\EndFor
+	
+	\ForAll{$\bm{v}\in\mathcal{V}(\mathcal{M})$}
+		\State $j:=\textrm{number of vertex }\bm{v}$
+		\State $(\mathbf{A})_{ij}\gets 0$
+		\ForAll{trangle $K$ adjacent to $\bm{v}$}
+		\State $l:=\textrm{local number of } e \textrm{ in } K $
+			\State $(\mathbf{A})_{jj}\gets(\mathbf{A})_{jj}+
+				(\mathbf{A}_K)_{ll}$ \Comment{ see Figure 
+				\ref{tikz:2D_assemble_diagonal_element_matrices} }
+		\EndFor
+	\EndFor
+\end{algorithmic}

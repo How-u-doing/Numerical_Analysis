@@ -1,0 +1,24 @@
+\begin{tikzpicture}	[>=stealth]
+	
+	\coordinate (A) at (3,0);
+	\coordinate (B) at (7,1.5);
+	\coordinate (C) at (5.75,5);
+	\coordinate (D) at (.5,5);
+	\coordinate (E) at (0,2);
+	
+	\coordinate (F) at (3.25,2.75); % the center, focus
+	\coordinate (X) at (6.5,4.5);   % commentary node
+	
+	\draw[very thick] (A)--(B)--(C)--(D)--(E)--cycle
+		(F)--(A) (F)--(B) (F)--(C) (F)--(D) (F)--(E);
+	\fill[red] (F) circle (5pt)  (X) circle (5pt);	
+	
+	\path
+		 (X)++(0:13pt) node[text=blue]{$\bx_j$}
+		 (4.25,1.5) node[text=blue]{$K_1$} % (O1)
+		 (5.25,3)   node[text=blue]{$K_2$} % (O2)
+		 (3.35,4)   node[text=blue]{$K_3$} % (O3)
+		 (1.5,3)    node[text=blue]{$K_4$} % (O4)
+		 (2.35,1.5) node[text=blue]{$K_5$};% (O5)
+	
+\end{tikzpicture}

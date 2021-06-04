@@ -1,0 +1,19 @@
+\begin{tikzpicture}[scale=0.6]
+	\draw[->] (-.2,0) -- (6.6,0);
+	\draw[->] (0,-.2) -- (0,2.2);	
+	
+	\draw (-.05,1.3)--(.1,1.3);	
+	\foreach \i in {1,2,...,6}{
+		\draw [dashed,thin] (\i,2cm)--(\i,2pt);
+		\draw (\i,2pt)--(\i,-2pt);
+	}
+	
+	\node[text=blue,anchor=north west] at (0, -2pt) {\footnotesize $a$};
+	\node[text=blue,anchor=north] at (6, -2pt) {\footnotesize $b$};
+	\node[text=blue,anchor=east] at (0,1.3) {\footnotesize 1};
+		
+	\draw[magenta] (1.95,0)--(2.95,1.3)--(3.95,0);
+	\draw[red] (2,0)--(3,1.3)--(4,0)
+		node[text=blue,anchor=west] at (3,1.3) {\footnotesize $b_h^j$};
+	\draw[green] (2,0)--(4,0);
+\end{tikzpicture}
